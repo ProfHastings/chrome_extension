@@ -3,5 +3,6 @@
 -Sometimes doesnt stop counting time on chrome restart
 -Sometimes doesnt count time fast enough
 -Maybe sometimes counts too fast??
+-time during execution of saveTimeSpent maybe lost
 
 Test

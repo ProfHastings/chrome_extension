@@ -3,5 +3,7 @@
 -Sometimes doesnt stop counting time on chrome restart
 -Sometimes doesnt count time fast enough
 -Maybe sometimes counts too fast??
+-rename background to service worker in accordance with manifest v3
+-time during execution of saveTimeSpent maybe lost
 
 Test
