@@ -1,0 +1,7 @@
+-Sometimes doesnt count time
+-Sometimes doesnt update time until video stopped
+-Sometimes doesnt stop counting time on chrome restart
+-Sometimes doesnt count time fast enough
+-Maybe sometimes counts too fast??
+
+Test
