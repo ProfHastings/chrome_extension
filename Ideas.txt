@@ -1,0 +1,13 @@
+Zeit in Stunden und Minuten aufteilen
+
+global timer/ daily timer
+
+besseres GUI
+- mehr statistics 
+- global timer / daily timer
+
+Verlauf anzeigen lassen - wie viel an welchen Tagen
+
+percentage of daily used
+
+block Youtube if daily limit reached
