@@ -1,13 +1,25 @@
+Priority:
+
+[---High:---]
+
 Zeit in Stunden und Minuten aufteilen
 
-global timer/ daily timer
+Time spent on that day 
+
+set daily limit
+-percentage of daily limit used
+-block Youtube if daily limit reached
+
+[---Medium:---]
 
 besseres GUI
 - mehr statistics 
 - global timer / daily timer
 
+[---Low:---]
+
 Verlauf anzeigen lassen - wie viel an welchen Tagen
+- für die letzten sieben Tage 
+- und auch wie viel an welchen Tage seit Nafang an 
 
-percentage of daily used
-
-block Youtube if daily limit reached
+Set times (bsp. 06:00-06:00; 00:00-00:00)
