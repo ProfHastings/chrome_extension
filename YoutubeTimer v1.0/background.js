@@ -1,7 +1,6 @@
 let startTime = null;
 
 function trackYouTubeTime(tabId) {
-  console.log('test');
   chrome.tabs.sendMessage(tabId, { action: 'isVideoPlaying' }, (response) => {
     if (chrome.runtime.lastError) {
       // Handle errors, such as the tab being closed
