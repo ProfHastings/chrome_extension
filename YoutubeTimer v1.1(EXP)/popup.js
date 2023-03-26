@@ -1,12 +1,17 @@
 function displayTimeSpent() {
   chrome.storage.local.get('timeSpentOnYouTube', (data) => {
-    console.log('Raw data:', data.timeSpentOnYouTube); // Check the raw value from storage
     const parsedValue = parseFloat(data.timeSpentOnYouTube);
-    console.log('Parsed value:', parsedValue); // Check the parsed value
     const timeSpent = parsedValue || 0;
-      document.getElementById('timeSpent').textContent = timeSpent.toFixed(2);
-    });
-  }
-  // Update the time display when the popup is opened and every second
-  displayTimeSpent();
-  setInterval(displayTimeSpent, 1000);
+
+    const days = Math.floor(timeSpent / 86400);
+    const hours = Math.floor((timeSpent % 86400) / 3600);
+    const minutes = Math.floor((timeSpent % 3600) / 60);
+    const seconds = Math.floor(timeSpent % 60);
+
+    document.getElementById('timeSpent').textContent = `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+  });
+}
+
+// Update the time display when the popup is opened and every second
+displayTimeSpent();
+setInterval(displayTimeSpent, 1000);
