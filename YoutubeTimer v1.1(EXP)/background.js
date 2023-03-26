@@ -1,4 +1,5 @@
 let startTime = null;
+let timeoutId = null;
 
 function trackYouTubeTime(tabId) {
   chrome.tabs.sendMessage(tabId, { action: 'isVideoPlaying' }, (response) => {
@@ -11,6 +12,10 @@ function trackYouTubeTime(tabId) {
       if (!startTime) {
         startTime = new Date();
       }
+      const currentTime = new Date();
+      const timeSpent = (currentTime - startTime) / 1000;
+      saveTimeSpent(timeSpent); // Save the time spent so far
+      startTime = currentTime; // Update the start time to the current time
       console.log('Video is playing');
     } else {
       if (startTime) {
@@ -21,11 +26,13 @@ function trackYouTubeTime(tabId) {
         saveTimeSpent(timeSpent);
       }
       console.log('Video is not playing');
-
     }
 
-    // Continue monitoring the tab every few seconds (e.g., 1 second)
-    setTimeout(() => trackYouTubeTime(tabId), 1000);
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId);
+    }
+    // Continue monitoring the tab every few seconds (e.g., 3 seconds) - timeoutId prevents multiple instances of function running at the same time
+    timeoutId = setTimeout(() => trackYouTubeTime(tabId), 3000);
   });
 }
 
@@ -37,6 +44,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   }
 
   if (tab.url.includes('youtube.com')) {
+    console.log('version 1.1 test')
     console.log('Tab URL includes youtube.com:', tab.url); // Log when a tab URL contains youtube.com
   }
 

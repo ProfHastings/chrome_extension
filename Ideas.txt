@@ -15,6 +15,7 @@ set daily limit
 besseres GUI
 - mehr statistics 
 - global timer / daily timer
+- new implementation for constantly updating popup window may have some loss -- needs long term testing (right now set to update every 3 seconds to minimize loss)
 
 [---Low:---]
 
