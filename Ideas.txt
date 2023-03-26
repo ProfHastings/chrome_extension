@@ -2,7 +2,7 @@ Priority:
 
 [---High:---]
 
-(Zeit in Stunden und Minuten aufteilen)
+(Zeit in Stunden und Minuten aufteilen) probably done
 
 Time spent on that day 
 
