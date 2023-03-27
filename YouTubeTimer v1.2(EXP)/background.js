@@ -44,7 +44,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   }
 
   if (tab.url.includes('youtube.com')) {
-    console.log('version 1.1 test')
+    console.log('version 1.2 test')
     console.log('Tab URL includes youtube.com:', tab.url); // Log when a tab URL contains youtube.com
   }
 
@@ -58,7 +58,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)/;
 
   if (changeInfo.status === 'complete' && youtubeRegex.test(tab.url)) {
-    console.log('test');
+    console.log('time is getting tracked now');
     trackYouTubeTime(tabId);
 }
 });
