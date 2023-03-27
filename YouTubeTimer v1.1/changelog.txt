@@ -1,0 +1,4 @@
+- fixed double counting bug (only one instance of function allowed)
+- converts time into days/hours/minutes/seconds instead of just seconds
+- time now updates live every 3 seconds
+- should be more reliable
