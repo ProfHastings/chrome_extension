@@ -14,4 +14,4 @@ function displayTimeSpent() {
 
 // Update the time display when the popup is opened and every second
 displayTimeSpent();
-setInterval(displayTimeSpent, 1000);
+setInterval(displayTimeSpent, 3000);

@@ -1,5 +1,5 @@
-let startTime = null;
-let timeoutId = null;
+let startTimes = {};
+let timeoutIds = {};
 
 function trackYouTubeTime(tabId) {
   chrome.tabs.sendMessage(tabId, { action: 'isVideoPlaying' }, (response) => {
@@ -9,33 +9,29 @@ function trackYouTubeTime(tabId) {
     }
 
     if (response && response.playing) {
-      if (!startTime) {
-        startTime = new Date();
+      if (!startTimes[tabId]) {
+        startTimes[tabId] = new Date();
       }
       const currentTime = new Date();
-      const timeSpent = (currentTime - startTime) / 1000;
-      saveTimeSpent(timeSpent); // Save the time spent so far
-      startTime = currentTime; // Update the start time to the current time
+      const timeSpent = (currentTime - startTimes[tabId]) / 1000;
+      saveTimeSpent(timeSpent);
+      startTimes[tabId] = currentTime;
       console.log('Video is playing');
+
+      // Set a new timeout only if the video is playing
+      timeoutIds[tabId] = setTimeout(() => trackYouTubeTime(tabId), 3000);
     } else {
-      if (startTime) {
-        const timeSpent = (new Date() - startTime) / 1000;
-        startTime = null;
+      if (startTimes[tabId]) {
+        const timeSpent = (new Date() - startTimes[tabId]) / 1000;
+        startTimes[tabId] = null;
 
         // Save timeSpent to storage
         saveTimeSpent(timeSpent);
       }
       console.log('Video is not playing');
     }
-
-    if (timeoutId !== null) {
-      clearTimeout(timeoutId);
-    }
-    // Continue monitoring the tab every few seconds (e.g., 3 seconds) - timeoutId prevents multiple instances of function running at the same time
-    timeoutId = setTimeout(() => trackYouTubeTime(tabId), 3000);
   });
 }
-
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   console.log('Tab updated:', tabId, changeInfo, tab); // Log tab update details
 
@@ -44,34 +40,46 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   }
 
   if (tab.url.includes('youtube.com')) {
-    console.log('version 1.2 test')
     console.log('Tab URL includes youtube.com:', tab.url); // Log when a tab URL contains youtube.com
-  }
-
-  if (changeInfo.status === 'complete' && tab.url.includes('youtube.com')) {
-    trackYouTubeTime(tabId);
   }
 });
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  console.log('Tab updated:', tabId, changeInfo, tab); // Add this line
-  const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)/;
+  //const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)/;
 
-  if (changeInfo.status === 'complete' && youtubeRegex.test(tab.url)) {
-    console.log('time is getting tracked now');
-    trackYouTubeTime(tabId);
-}
-});
-
-chrome.tabs.onRemoved.addListener((tabId) => {
-  console.log('Tab removed:', tabId); // Add this line
-  if (startTime) {
-    const timeSpent = (new Date() - startTime) / 1000;
-    startTime = null;
-    saveTimeSpent(timeSpent);
+  if (changeInfo.status === 'complete' && tab.url.includes('youtube.com')) {
+    console.log('Tab updated with YouTube URL');
+    // Check if the video is playing before tracking time
+    chrome.tabs.sendMessage(tabId, { action: 'isVideoPlaying' }, (response) => {
+      if (response && response.playing) {
+        console.log('Video is playing in the updated tab');
+        trackYouTubeTime(tabId);
+      }
+    });
   }
 });
 
+chrome.runtime.onMessage.addListener((message, sender) => {
+  if (message.action === 'videoStateChanged') {
+    const tabId = sender.tab.id;
+    if (message.playing) {
+      console.log('Video is playing in tab', tabId);
+      trackYouTubeTime(tabId);
+    } else {
+      console.log('Video is paused in tab', tabId);
+      // Video tracking stopped in trackYouTubeTime function
+    }
+  }
+});
+
+chrome.tabs.onRemoved.addListener((tabId) => {
+  console.log('Tab removed:', tabId);
+  if (startTimes[tabId]) {
+    const timeSpent = (new Date() - startTimes[tabId]) / 1000;
+    startTimes[tabId] = null;
+    saveTimeSpent(timeSpent);
+  }
+});
 function saveTimeSpent(timeSpent) {
     chrome.storage.local.get('timeSpentOnYouTube', (data) => {
       const totalTimeSpent = (parseFloat(data.timeSpentOnYouTube) || 0) + timeSpent;
