@@ -1,0 +1,3 @@
+- changed to transparent logo
+- now tracks multiple tabs (maybe no bugs idk lol)
+- pup also updates every 3 seconds now (should cause no apparent difference")

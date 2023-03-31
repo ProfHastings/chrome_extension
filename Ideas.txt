@@ -5,6 +5,9 @@ Priority:
 (Zeit in Stunden und Minuten aufteilen) probably done
 
 Time spent on that day 
+- eigene Zeit einführen die nur den Tag Trackt
+    - wird jeden Tag geresetet
+
 
 set daily limit
 -percentage of daily limit used
