@@ -10,6 +10,8 @@ set daily limit
 -percentage of daily limit used
 -block Youtube if daily limit reached
 
+add descriptive comments to code
+
 [---Medium:---]
 
 besseres GUI

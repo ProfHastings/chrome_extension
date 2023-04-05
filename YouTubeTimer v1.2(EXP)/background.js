@@ -32,6 +32,7 @@ function trackYouTubeTime(tabId) {
     }
   });
 }
+
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   console.log('Tab updated:', tabId, changeInfo, tab); // Log tab update details
 
