@@ -1,3 +1,0 @@
--rename background to service worker in accordance with manifest v3
--time during execution of saveTimeSpent maybe lost
--2 tabs playing at the same time -> counts twice as fast 
